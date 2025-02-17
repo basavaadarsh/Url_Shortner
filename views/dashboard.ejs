@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white p-10">
+    <h1 class="text-4xl font-bold mb-6 text-center">Admin Dashboard</h1>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse border border-gray-700">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="p-3">Short URL</th>
+                    <th class="p-3">Original URL</th>
+                    <th class="p-3">Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% urls.forEach(url => { %>
+                    <tr class="hover:bg-gray-800 transition duration-300">
+                        <td class="p-3"><a href="/<%= url.shortId %>" class="text-blue-400 hover:underline">/<%= url.shortId %></a></td>
+                        <td class="p-3"><%= url.longUrl %></td>
+                        <td class="p-3"><%= url.clicks %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

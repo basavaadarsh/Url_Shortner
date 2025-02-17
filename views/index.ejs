@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex justify-center items-center h-screen">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-96 text-center animate-fadeIn">
+        <h1 class="text-3xl font-bold mb-4">Shorten Your URL</h1>
+        <form action="/shorten" method="POST" class="space-y-4">
+            <input type="text" name="longUrl" placeholder="Enter URL"
+                class="w-full p-3 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button type="submit"
+                class="bg-blue-500 w-full p-3 rounded-md hover:bg-blue-600 transition duration-300">Shorten</button>
+        </form>
+        <% if (shortUrl) { %>
+            <div class="mt-4 p-3 bg-gray-700 rounded-lg">
+                <p>Shortened URL: <a href="<%= shortUrl %>" class="text-blue-400 underline"><%= shortUrl %></a></p>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

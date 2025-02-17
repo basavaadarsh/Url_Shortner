@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to right, #1e3c72, #2a5298);
+            background-attachment: fixed;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="glass w-96 text-center p-6">
+        <h1 class="text-2xl font-bold text-white mb-4">🔗 URL Shortener</h1>
+        
+        <input id="longUrl" type="text" 
+            class="w-full px-4 py-2 rounded-md text-gray-800 border-none focus:ring-2 focus:ring-blue-400 outline-none"
+            placeholder="Enter long URL here">
+        
+        <button onclick="shortenUrl()"
+            class="mt-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-all duration-300 ease-in-out">
+            Shorten URL
+        </button>
+
+        <div id="loading" class="text-white mt-3 hidden">⏳ Shortening...</div>
+        <div id="result" class="text-white mt-3"></div>
+    </div>
+
+    <script>
+        async function shortenUrl() {
+            const longUrl = document.getElementById("longUrl").value;
+            const resultDiv = document.getElementById("result");
+            const loadingDiv = document.getElementById("loading");
+
+            resultDiv.innerHTML = "";
+            loadingDiv.classList.remove("hidden");
+
+            try {
+                const response = await fetch("http://localhost:5000/shorten", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ longUrl })
+                });
+
+                const data = await response.json();
+                loadingDiv.classList.add("hidden");
+
+                if (data.shortUrl) {
+                    resultDiv.innerHTML = `<p class="text-lg">✅ Shortened URL: <a href="${data.shortUrl}" target="_blank" class="underline text-blue-300">${data.shortUrl}</a></p>`;
+                } else {
+                    resultDiv.innerHTML = `<p class="text-red-400">❌ Error shortening URL</p>`;
+                }
+            } catch (error) {
+                loadingDiv.classList.add("hidden");
+                resultDiv.innerHTML = `<p class="text-red-400">⚠️ Network error</p>`;
+            }
+        }
+    </script>
+
+</body>
+</html>
